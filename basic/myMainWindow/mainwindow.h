@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QLineEdit>
+#include <QDialog>
+#include <QLabel>
 
 namespace Ui {
 class MainWindow;
@@ -44,10 +47,17 @@ private slots:
 
     void on_action_Paste_triggered();
 
+    void showFindText();
+
+    void on_action_Find_triggered();
+
 private:
     Ui::MainWindow *ui;
     bool isUntilted;
     QString curFile;
+    QLineEdit *findLineEdit;
+    QDialog *findDialog;
+    QLabel *statusLabel;
 
 protected:
    void closeEvent(QCloseEvent *event);

@@ -13,10 +13,33 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+//    ui->statusBar->showMessage(tr("welcome to Qt"),2000);
+    statusLabel = new QLabel;
+    statusLabel->setMinimumSize(150, 20);
+    statusLabel->setFrameShape(QFrame::WinPanel);
+    statusLabel->setFrameShadow(QFrame::Sunken);
+    ui->statusBar->addWidget(statusLabel);
+    statusLabel->setText(tr("welcom to Qt"));
+
+    QLabel *permanent = new QLabel;
+    permanent->setFrameStyle(QFrame::Box | QFrame::Sunken);
+//    permanent->setText(tr("hujianjun"));
+    permanent->setText(tr("<a href = \"http://www.baidu.com\">baidu.com</a>"));
+    permanent->setTextFormat(Qt::RichText);
+    permanent->setOpenExternalLinks(true);
+    ui->statusBar->addPermanentWidget(permanent);
 
     isUntilted = true;
     curFile = tr("unknow.txt");
     setWindowTitle(curFile);
+    findDialog = new QDialog(this);
+    findDialog->setWindowTitle(tr("Find"));
+    findLineEdit = new QLineEdit(findDialog);
+    QPushButton *button = new QPushButton(tr("Find Next"), findDialog);
+    QVBoxLayout *layout = new QVBoxLayout(findDialog);
+    layout->addWidget(findLineEdit);
+    layout->addWidget(button);
+    connect(button, SIGNAL(clicked()), this, SLOT(showFindText()));
 //    QPushButton *button = new QPushButton(this);
 //    QLineEdit *lineEdit = new QLineEdit(this);
 //    QGridLayout *layout = new QGridLayout;
@@ -177,7 +200,15 @@ void MainWindow::on_action_Copy_triggered()
 
 void MainWindow::on_action_Paste_triggered()
 {
-   ui->textEdit->paste();
+    ui->textEdit->paste();
+}
+
+void MainWindow::showFindText()
+{
+   QString str = findLineEdit->text();
+   if(!ui->textEdit->find(str, QTextDocument::FindBackward)){
+       QMessageBox::warning(this, tr("Find"), tr("Not Found %1!!").arg(str));
+   }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
@@ -187,4 +218,11 @@ void MainWindow::closeEvent(QCloseEvent *event){
     else {
         event->ignore();
     }
+}
+
+
+
+void MainWindow::on_action_Find_triggered()
+{
+   findDialog->show();
 }

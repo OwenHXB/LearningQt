@@ -97,6 +97,9 @@
    <property name="text">
     <string>新建(N)</string>
    </property>
+   <property name="statusTip">
+    <string>新建文件</string>
+   </property>
   </action>
   <action name="action_Open">
    <property name="icon">
