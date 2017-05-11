@@ -40,6 +40,7 @@ protected:
   void paintGL();
   void keyPressEvent( QKeyEvent *e );
   void loadGLTextures();
+  void wheelEvent(QWheelEvent *event);
 
 protected:
 

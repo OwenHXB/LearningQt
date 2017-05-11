@@ -23,4 +23,4 @@ CONFIG		+= qt opengl warn_on release
 HEADERS		= nehewidget.h
 SOURCES		= nehewidget.cpp \
 		  main.cpp
-TARGET		= lesson01
+TARGET		= lesson02

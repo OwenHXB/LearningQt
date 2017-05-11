@@ -126,6 +126,7 @@ void NeHeWidget::paintGL()
 
 void NeHeWidget::resizeGL( int width, int height )
 {
+    qDebug() << "reisze";
   if ( height == 0 )
   {
     height = 1;
@@ -200,6 +201,19 @@ void NeHeWidget::keyPressEvent( QKeyEvent *e )
   case Qt::Key_Escape:
     close();
   }
+}
+
+void NeHeWidget::wheelEvent(QWheelEvent *event)
+{
+   if(event->delta() > 0){
+       zoom += 0.2;
+//       qDebug() << event->delta();
+   }
+   else {
+//       qDebug() << event->delta();
+       zoom -= 0.2;
+   }
+       updateGL();
 }
 
 void NeHeWidget::loadGLTextures()

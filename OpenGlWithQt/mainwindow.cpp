@@ -8,10 +8,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Hello OpenGL");
-    setGeometry(300,300,500,500);
-    connect(ui->myGLWidget, SIGNAL(xRotationChanged(int)), ui->xRotSlider,SLOT(setValue(int)) );
-    connect(ui->myGLWidget, SIGNAL(yRotationChanged(int)), ui->zRotSlider,SLOT(setValue(int)) );
-    connect(ui->myGLWidget, SIGNAL(zRotationChanged(int)), ui->yRotSlider,SLOT(setValue(int)) );
+    setGeometry(200,200,800,800);
+//    ui->myGLWidget->setGeometry(10,10,this->size().width() -60,this->size().height()-60);
+//    ui->myGLWidget->resize();
+//    connect(ui->myGLWidget, SIGNAL(xRotationChanged(int)), ui->xRotSlider,SLOT(setValue(int)) );
+//    connect(ui->myGLWidget, SIGNAL(yRotationChanged(int)), ui->yRotSlider,SLOT(setValue(int)) );
+//    connect(ui->myGLWidget, SIGNAL(zRotationChanged(int)), ui->zRotSlider,SLOT(setValue(int)) );
 }
 
 MainWindow::~MainWindow()

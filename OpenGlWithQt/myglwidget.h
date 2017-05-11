@@ -32,10 +32,12 @@ signals:
     void yRotationChanged(int angle);
     void zRotationChanged(int angle);
 private:
+    void draw();
 
     int xRot;
     int yRot;
     int zRot;
+    GLfloat zoom;
     QPoint lastPos;
 };
 
