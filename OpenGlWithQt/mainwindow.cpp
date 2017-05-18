@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    fullScreen = false;
     setWindowTitle("Hello OpenGL");
     setGeometry(200,200,800,800);
 //    ui->myGLWidget->setGeometry(10,10,this->size().width() -60,this->size().height()-60);

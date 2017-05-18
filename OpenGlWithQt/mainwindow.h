@@ -17,8 +17,11 @@ public:
 
 protected:
     void keyPressEvent(QKeyEvent *);
+    void mouseDoubleClickEvent(QMouseEvent *);
 private:
     Ui::MainWindow *ui;
+
+    bool fullScreen;
 };
 
 #endif // MAINWINDOW_H

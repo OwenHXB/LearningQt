@@ -66,6 +66,7 @@ void NeHeWidget::paintGL()
 //  glTranslatef(-1.5, 0.0, -6.0); // 沿着 X, Y 和 Z 轴移动
   glTranslatef(-1.5, 0.0, -10.0); // 沿着 X, Y 和 Z 轴移动
 
+  glEnable(GL_MULTISAMPLE);
   glBegin(GL_TRIANGLES); // begin draw triangles
   glColor3f( 1.0, 0.0, 0.0 ); //R
   glVertex3f(0.0, 1.0, 0.0);
@@ -83,7 +84,7 @@ void NeHeWidget::paintGL()
   glVertex3f(1.0, -1.0, 0.0); // right down
   glVertex3f(-1.0, -1.0, 0.0); // left down
   glEnd();// draw quads finish
-
+  glDisable(GL_MULTISAMPLE);
 
 }
 
