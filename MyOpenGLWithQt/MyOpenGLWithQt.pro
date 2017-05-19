@@ -6,9 +6,10 @@
 
 QT       += core gui opengl
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets concurrent
 
-CONFIG += -std=c++11
+CONFIG += c++11
+#CONFIG += -std=c++14
 
 LIBS += -lglut -lGLU
 

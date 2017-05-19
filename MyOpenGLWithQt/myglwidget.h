@@ -68,6 +68,7 @@ protected:
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void wheelEvent(QWheelEvent *);
+    void keyPressEvent(QKeyEvent *);
 
     void setXRotation(int angle);
     void setYRotation(int angle);
@@ -82,6 +83,7 @@ private:
     GLfloat xTrans, yTrans, zTrans;
     QPoint lastPos;
     MapInfo *mapinfo;
+    GLfloat enlarge;
 
     bool MidButtonPressed; // 鼠标 midbutton pressed
 

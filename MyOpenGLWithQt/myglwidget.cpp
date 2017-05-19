@@ -3,6 +3,17 @@
 #include <GL/freeglut.h>
 #include <QDebug>
 #include <QMap>
+#include <QStringList>
+#include <QString>
+#include <qtconcurrentmap.h>
+#include <iostream>
+#include <QList>
+#include <string>
+
+int ccc(const QString &str)
+{
+    return std::stoi(str.toStdString());
+}
 
 GLfloat lightAmbient[4] = {0.5, 0.5, 0.5, 1.0};
 GLfloat lightDiffuse[4] = {1.0, 1.0, 1.0, 1.0};
@@ -31,7 +42,8 @@ MyGLWidget::MyGLWidget(QWidget *parent) :
     xRot(0.0),yRot(0.0),zRot(0.0),
     xTrans(0.0),yTrans(0.0),zTrans(0.0),
     lastPos(0,0),
-    MidButtonPressed(false)
+    MidButtonPressed(false),
+    enlarge(1.0)
 {
     mapinfo = new MapInfo();
     startTimer(5);
@@ -80,7 +92,7 @@ void MyGLWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    glTranslatef(xTrans, yTrans, zoom);
+    glTranslatef(xTrans, yTrans, -10);
     glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
     glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
@@ -101,16 +113,16 @@ void MyGLWidget::paintGL()
 //                float_yb = float(y + 1)/(NUM - 1.0);
 
 //                glTexCoord2d(float_x, float_y);
-                glVertex3f(points[x][y][0], points[x][y][1], points[x][y][2]);
+                glVertex3f(points[x][y][0] * enlarge, points[x][y][1] * enlarge, points[x][y][2] * enlarge);
 
 //                glTexCoord2d(float_x, float_yb);
-                glVertex3f(points[x][y + 1][0], points[x][y + 1][1], points[x][y + 1][2]);
+                glVertex3f(points[x][y + 1][0] * enlarge, points[x][y + 1][1] * enlarge, points[x][y + 1][2] * enlarge);
 
 //                glTexCoord2d(float_xb, float_yb);
-                glVertex3f(points[x + 1][y + 1][0], points[x + 1][y + 1][1], points[x + 1][y + 1][2]);
+                glVertex3f(points[x + 1][y + 1][0] * enlarge, points[x + 1][y + 1][1] * enlarge, points[x + 1][y + 1][2] * enlarge);
 
 //                glTexCoord2d(float_xb, float_y);
-                glVertex3f(points[x + 1][y][0], points[x + 1][y][1], points[x + 1][y][2]);
+                glVertex3f(points[x + 1][y][0] * enlarge, points[x + 1][y][1] * enlarge, points[x + 1][y][2] * enlarge);
             }
         }
     glEnd();
@@ -227,11 +239,22 @@ void MyGLWidget::wheelEvent(QWheelEvent *event)
 {
     if(event->delta() > 0) {
         zoom += 0.8;
+        enlarge += 0.01;
     }
     else {
         zoom -= 0.8;
+        enlarge -= 0.01;
+        if(enlarge < 0.001){
+            enlarge = 0.001;
+        }
     }
+    qDebug() << enlarge;
     updateGL();
+}
+
+void MyGLWidget::keyPressEvent(QKeyEvent *)
+{
+   qDebug() << "MyGLWidget" ;
 }
 
 void MyGLWidget::setXRotation(int angle)
@@ -454,9 +477,18 @@ void MyGLWidget::getMapInfoFromFile(QTextStream &in)
     pos = datatype.indexOf(":");
     type = datatype.mid(0,pos);
     if  (type == "data") {
-//        datatype = datatype.remove("data: [");
+        datatype = datatype.remove("data: [");
         datatype = datatype.remove("]");
-        datatype.append(", ");
+        QStringList tempList = datatype.split(", ");
+        qDebug() << tempList[0];
+        qDebug() << tempList[1];
+        qDebug() << tempList.length();
+        QList<int> tempdata = QtConcurrent::blockingMapped(tempList,ccc);
+        qDebug() << tempdata[0];
+        qDebug() << tempdata[1];
+        qDebug() << tempdata.length();
+        //rxy
+        //datatype.append(", ");
 //        datatype.push_front(' ');
 //        qDebug() << datatype.count(",");
         int cnt = 0;
@@ -465,8 +497,10 @@ void MyGLWidget::getMapInfoFromFile(QTextStream &in)
         int lastpos = pos;
         for(int i = 0; i < mapinfo->info.width; i++) {
             for(int j = 0; j < mapinfo->info.height; j++){
-                pos = datatype.indexOf(" ",pos + 1);
-                mapinfo->data[i][j] = datatype.mid(lastpos,pos - lastpos - 1).toInt();
+//                pos = datatype.indexOf(" ",pos + 1);
+                //mapinfo->data[i][j] = datatype.mid(lastpos,pos - lastpos - 1).toInt();
+//                mapinfo->data[i][j] = tempList[i*2048+j].toInt();
+//                mapinfo->data[i][j] = tempdata[i * 2048 + j];
                 qDebug() << cnt ++;
 //                pos1 = datatype.indexOf(" ",pos1);
 //                mapinfo->data[i][j] = datatype.mid(0,datatype.indexOf(",")).toInt();

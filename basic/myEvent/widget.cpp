@@ -1,5 +1,6 @@
 #include "widget.h"
 #include "ui_widget.h"
+#include <QDebug>
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -15,6 +16,7 @@ Widget::~Widget()
 
 void Widget::mousePressEvent(QMouseEvent *event)
 {
+    qDebug() << event->x() << "," << event->y();
     ui->pushButton->setText(tr("%1, %2").arg(event->x()).arg(event->y()));
 }
 
